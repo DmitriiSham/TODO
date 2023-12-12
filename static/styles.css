@@ -1,0 +1,210 @@
+body {
+  font-family: Arial;
+//   margin: 0;
+  
+}
+
+.filter_users {
+    max-width: 369px;
+    min-width: 300px;
+    width: 100%;
+    height: 66px;
+    border: 1px solid #999;
+    font-size: 150%;
+    border-radius: 7px;
+    position: relative;
+    top: 5em;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-left: 1em;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1em center;
+    background-size: 1em;
+}
+
+.working_screen {
+    display: none;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+    height: 723px;
+    max-width: 995px;
+    width: 100%;
+    /* border: 1px solid black; */
+    position: relative;
+    top: 520px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#user_date {
+    display: inline-flex;
+    justify-content: space-between;
+    align-self: stretch;
+}
+
+#selectedUser {
+    font-size: 24px;
+    padding-left: 1rem;
+}
+
+#selectDay {
+    width: 7em;
+    font-size: 120%;
+    padding-left: 30px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: url(https://img.icons8.com/color/48/calendar--v1.png) no-repeat;
+    background-size: 30px;
+    background-position: left center;
+}
+
+.block_list {
+    display: flex;
+    max-width: 453px;
+    width: 100%;
+    height: 393px;
+    list-style: none;
+}
+
+.todo_list {
+    padding-inline-start: 0px;
+    display: flex;
+    flex-flow: column;
+}
+
+.list_item {
+    font-size: 24px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.time_span {
+    font-size: x-small;
+    display: flex;
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+
+.time_span[data-order-state = "new"] {
+    color: black;
+}
+
+.time_span[data-order-state = "expired"] {
+    color: red;
+}
+
+.toggle-button {
+    background: none;
+    cursor: pointer;
+    outline: none;
+    margin-top: 3px;
+    margin-right: 5px;
+    border-radius: 5px;
+    min-height: 30px;
+    min-width: 30px;
+}
+
+.toggle-button i {
+    color: white;
+}
+
+.toggle-button.active i {
+    display: inline;
+    color: green;
+}
+
+.list_item_text {
+    width: 335px;
+    align-items: flex-start;
+    padding-top: 0px;
+}
+
+.todo_container {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 132px;
+    max-width: 800px;
+    width: 100%;
+    // border: 1px solid;
+}
+
+#eventDayTime {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#eventTime {
+    width: 52px;
+    font-size: 120%;
+    padding-left: 27px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: url(https://img.icons8.com/pulsar-color/48/square-clock.png) no-repeat;
+    background-size: contain;
+}
+
+#eventDay {
+    width: 100px;
+    vertical-align: top;
+    font-size: 120%;
+    padding-left: 30px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: url(https://img.icons8.com/color/48/calendar--v1.png) no-repeat;
+    background-size: contain;
+}
+
+.todo_input {
+    border: 1px solid;
+    min-height: 120px;
+    width: 443px;
+    font-size: 24px;
+    padding-left: 10px;
+}
+
+.todo_button {
+    box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.47);
+    top: 0;
+    right: 0;
+    background-color: #ededed;
+    border-radius: 8px;
+    /* border: 1px solid #ffffff; */
+    font-size: 25px;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+@media screen and (max-width: 720px) {
+    .todo_input {order: 2;margin-top: 5px;}
+    .todo_button {order: 1;flex-basis: auto;}
+    #eventDayTime {order: 0;flex-basis: auto;margin-right: auto;}
+    #eventTime { flex: 1 auto; }
+    #eventDay { flex: 1 auto; }
+    .todo_container {
+        flex-flow: row wrap;
+        margin-top: 3em;
+        justify-content: center;
+    }
+    .working_screen {
+        justify-content: flex-start;
+    }
+    .block_list {
+        margin-top: 4em;
+    }
+}
+
+.todoDates {
+    font-weight: bold;
+    background-color: #FAEDCA;
+}
