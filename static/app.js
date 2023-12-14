@@ -56,7 +56,9 @@ async function getTodoList(filterUsersId) {
     const newTodoList = [];
     resultJson.forEach(item => newTodoList.push(item));
     await filterTodoList(newTodoList);
-    $(function() {datePicker(newTodoList)});
+    datePicker(newTodoList);
+const todoCheckButton = newTodoList.map(item => item.checkButton);
+console.log(todoCheckButton);
 }
 
 async function filterTodoList(newTodoList) {
@@ -120,7 +122,6 @@ async function checkStatus() {
     });
 };
 
-
 // Date Picker
 function datePicker(newTodoList) {
     $('#selectDay').daterangepicker({
@@ -134,10 +135,11 @@ function datePicker(newTodoList) {
         startDate: defaultDay,
         isInvalidDate: function (date) {
             const todoDates = newTodoList.map(item => item.date);
-            if ($.inArray(date.format('DD.MM.YYYY'), todoDates) > -1) {
-                return false;
-            } else {
+            const todoCheckButton = newTodoList.filter(item => item.date === date.format('DD.MM.YYYY')).map(item => item.checkButton);
+            if ($.inArray(date.format('DD.MM.YYYY'), todoDates) > -1 && $.inArray('false', todoCheckButton) == -1 ) {
                 return true;
+            } else {
+                return false;
             }
         },
         isCustomDate: function (date) {
@@ -152,6 +154,7 @@ function datePicker(newTodoList) {
     $('#selectDay').on('apply.daterangepicker', function (ev, picker) {
         selectedDay = picker.startDate.format('DD.MM.YYYY');
         getSelectedDay();
+        // datePicker(newTodoList);
     });
     $('#eventDay').daterangepicker({
         singleDatePicker: true,
@@ -194,19 +197,6 @@ function getSelectedDay() {
 }
 
 // действие чек-бокса
-// document.querySelectorAll('.toggle-button').forEach(button => {
-//     button.addEventListener('click', async function (event) {
-//         event.preventDefault();
-//         event.currentTarget.classList.toggle('active');
-//         await checkStatus();
-//         const checkBoxNum = button.parentElement.dataset.num;
-//         const checkButton = button.classList.contains('active');
-//         const url = ('./setCheckBoxStatus?' + new URLSearchParams({ id: filterUsersId, date: daySelector.value, checkBox: checkBoxNum, checkBoxStatus: checkButton }).toString());
-//         const result = await fetch(url);
-//         const resultJson = await result.json();
-//         return resultJson;
-//     });
-// });
 
 function appendCheckEvent(button) {
     button.addEventListener('click', async function (event) {
