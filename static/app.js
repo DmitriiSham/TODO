@@ -57,8 +57,6 @@ async function getTodoList(filterUsersId) {
     resultJson.forEach(item => newTodoList.push(item));
     await filterTodoList(newTodoList);
     datePicker(newTodoList);
-const todoCheckButton = newTodoList.map(item => item.checkButton);
-console.log(todoCheckButton);
 }
 
 async function filterTodoList(newTodoList) {
