@@ -5,13 +5,30 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function getUserList() {
-    const result = await fetch('./userlist');
-    const resultJson = await result.json();
-    const ListUsers = resultJson;
-    for (user of ListUsers) {
+    fetch('./userlist')
+        .then((result)=> {
+            if (result.ok) {
+                return result.json();
+            }
+            return Promise.reject(new Error(result.statusText));
+        })
+        .then((json)=> {
+            if (json && json.length > 0) {
+                processJson(json)
+            }
+        })
+        .catch((error)=> {
+            processError(error)
+        })
+}
+function processJson(json) {
+    for (user of json) {
         let newOption = new Option(user.name, user.id)
         mySelect.append(newOption)
     }
+}
+function processError(error) {
+    console.error('Ошибка при получении списка пользователей:', error.message);
 }
 
 // селектор дней по-умолчанию
