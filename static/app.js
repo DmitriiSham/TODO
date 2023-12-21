@@ -6,18 +6,18 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function getUserList() {
     fetch('./userlist')
-        .then((result)=> {
+        .then((result) => {
             if (result.ok) {
                 return result.json();
             }
             return Promise.reject(new Error(result.statusText));
         })
-        .then((json)=> {
+        .then((json) => {
             if (json && json.length > 0) {
                 processJson(json)
             }
         })
-        .catch((error)=> {
+        .catch((error) => {
             processError(error)
         })
 }
@@ -42,29 +42,23 @@ const hour = currentDay.getHours().toString().length < 2 ? '0' + currentDay.getH
 const minutes = currentDay.getMinutes().toString().length < 2 ? '0' + currentDay.getMinutes() : currentDay.getMinutes();
 const defaultDay = `${day}.${month}.${year}`;
 let selectedDay = defaultDay;
-
-
-//Селектор пользователей
-const filterUsers = document.getElementById('mySelect');
-let filterUsersName = '';
-let filterUsersId = '';
-const workingScreen = document.querySelector('.working_screen');
-let selectedUser = document.querySelector('#selectedUser')
+let filterUsersId = ''; //Селектор пользователей
+let todoList = document.querySelector('.todo_list'); // список задач из ОМ
 
 // Выбор пользователя
-filterUsers.addEventListener('change', async function () {
+document.getElementById('mySelect').addEventListener('change', async function () {
+    const workingScreen = document.querySelector('.working_screen');
+    const selectedUser = document.querySelector('#selectedUser')
     workingScreen.style.display = "flex";
     filterUsersId = mySelect.value;
-    filterUsersName = mySelect.options[mySelect.selectedIndex].text;
+    const filterUsersName = mySelect.options[mySelect.selectedIndex].text;
     selectedUser.innerHTML = filterUsersName;
     await getTodoList(filterUsersId);
     await getSelectedDay();
     await checkStatus();
-
 })
 
-// список задач из ОМ
-let todoList = document.querySelector('.todo_list');
+
 async function getTodoList(filterUsersId) {
     // event.preventDefault();
     const url = ('./todoList?' + new URLSearchParams({ id: filterUsersId }).toString());
@@ -151,7 +145,7 @@ function datePicker(newTodoList) {
         isInvalidDate: function (date) {
             const todoDates = newTodoList.map(item => item.date);
             const todoCheckButton = newTodoList.filter(item => item.date === date.format('DD.MM.YYYY')).map(item => item.checkButton);
-            if ($.inArray(date.format('DD.MM.YYYY'), todoDates) > -1 && $.inArray('false', todoCheckButton) == -1 ) {
+            if ($.inArray(date.format('DD.MM.YYYY'), todoDates) > -1 && $.inArray('false', todoCheckButton) == -1) {
                 return true;
             } else {
                 return false;
