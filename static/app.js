@@ -28,6 +28,7 @@ function processJsonUserList(json) {
         mySelect.append(newOption)
     }
 }
+
 function processErrorUserList(error) {
     console.error('Ошибка при получении списка пользователей:', error.message);
 }
