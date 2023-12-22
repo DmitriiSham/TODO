@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function getUserList() {
-    fetch('./userlist')
+    await fetch('./userlist')
         .then((result) => {
             if (result.ok) {
                 return result.json();
@@ -14,20 +14,21 @@ async function getUserList() {
         })
         .then((json) => {
             if (json && json.length > 0) {
-                processJson(json)
+                processJsonUserList(json)
             }
         })
         .catch((error) => {
-            processError(error)
+            processErrorUserList(error)
         })
 }
-function processJson(json) {
+
+function processJsonUserList(json) {
     for (user of json) {
         let newOption = new Option(user.name, user.id)
         mySelect.append(newOption)
     }
 }
-function processError(error) {
+function processErrorUserList(error) {
     console.error('Ошибка при получении списка пользователей:', error.message);
 }
 
@@ -43,7 +44,7 @@ const minutes = currentDay.getMinutes().toString().length < 2 ? '0' + currentDay
 const defaultDay = `${day}.${month}.${year}`;
 let selectedDay = defaultDay;
 let filterUsersId = ''; //Селектор пользователей
-let todoList = document.querySelector('.todo_list'); // список задач из ОМ
+const todoList = document.querySelector('.todo_list'); // список задач из ОМ
 
 // Выбор пользователя
 document.getElementById('mySelect').addEventListener('change', async function () {
@@ -61,11 +62,23 @@ document.getElementById('mySelect').addEventListener('change', async function ()
 
 async function getTodoList(filterUsersId) {
     // event.preventDefault();
-    const url = ('./todoList?' + new URLSearchParams({ id: filterUsersId }).toString());
-    const result = await fetch(url);
-    const resultJson = await result.json();
     const newTodoList = [];
-    resultJson.forEach(item => newTodoList.push(item));
+    const url = ('./todoList?' + new URLSearchParams({ id: filterUsersId }).toString());
+    await fetch(url)
+        .then((result)=> {
+            if (result.ok) {
+                return result.json()
+            }
+            Promise.reject(new Error(result.statusText))
+        })
+        .then((json)=> {
+            if (json && json.length > 0) {
+                json.forEach(item => newTodoList.push(item));
+            }
+        })
+        .catch((error)=>{
+            console.error('Ошибка при получении списка задач:', error.message)
+        })
     await filterTodoList(newTodoList);
     datePicker(newTodoList);
 }
@@ -194,7 +207,7 @@ $(document).ready(function () {
 
 // задачи на выбранный день
 function getSelectedDay() {
-    let todos = todoList.querySelectorAll('li');
+    const todos = todoList.querySelectorAll('li');
     todos.forEach(todo => {
         const todoDate = todo.getAttribute('data-date');
         if (daySelector.value === todoDate) {
@@ -229,7 +242,6 @@ function appendCheckEvent(button) {
         } catch (error) {
             console.error('Ошибка:', error.message);
             event.currentTarget.classList.toggle('active');
-            // event.currentTarget.reset();
             throw error;
         }
     });
@@ -239,8 +251,19 @@ function appendCheckEvent(button) {
 document.querySelector('.todo_button').addEventListener('click', async function () {
     // event.preventDefault();
     const url = ('./sendTodo?' + new URLSearchParams({ id: filterUsersId, label: eventNewTodo.value, date: formatDate(eventDay.value), time: eventTime.value }).toString());
-    const result = await fetch(url);
-    const resultJson = await result.json();
+    await fetch(url)
+        .then((result)=> {
+            if (result.ok) {
+                return result.json()
+            }
+            Promise.reject(new Error(result.statusText))
+        })
+        .then((json) => {
+            return json
+        })
+        .catch((error)=> {
+            console.error('Ошибка при создании новой задачи:', error.message)
+        })
     eventNewTodo.value = "";
     await getTodoList(filterUsersId);
     await getSelectedDay();
