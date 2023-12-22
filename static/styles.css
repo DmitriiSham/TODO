@@ -1,7 +1,5 @@
 body {
-  font-family: Arial;
-//   margin: 0;
-  
+  font-family: Arial;  
 }
 
 .filter_users {
@@ -134,7 +132,6 @@ body {
     height: 132px;
     max-width: 800px;
     width: 100%;
-    // border: 1px solid;
 }
 
 #eventDayTime {
